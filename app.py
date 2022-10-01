@@ -23,19 +23,23 @@ class NpEncoder(json.JSONEncoder):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
 
+def get_tempfile_name(some_id):
+    return os.path.join(tempfile.gettempdir(), next(tempfile._get_candidate_names()) + "_" + some_id)
+
 @app.route("/read", methods=['POST'])
 def read():
-    filename = tempfile.NamedTemporaryFile().name
+    filename = get_tempfile_name("snap.jpg")
     print(filename)
     file = request.files['file']
     file.save(filename)
     global reader
     result = reader.readtext(filename, 
         detail = 1, 
-        allowlist="0123456789,m", 
-        decoder="beamsearch", 
-        text_threshold=0.8,
-        low_text=0.5)
+        allowlist="0123456789 .,",
+        # decoder="beamsearch",
+        # text_threshold=0.8,
+        # low_text=0.5
+        )
     os.remove(filename)
     return json.dumps(result, cls=NpEncoder)
 
