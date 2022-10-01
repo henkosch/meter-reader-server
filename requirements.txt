@@ -1,0 +1,6 @@
+torch==1.12.1
+torchvision==0.10.0
+easyocr==1.6.2
+flask==2.2.2
+numpy==1.23.3
+waitress==2.1.2

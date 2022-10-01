@@ -1,0 +1,12 @@
+version: '3'
+
+volumes:
+  easyocr:
+
+services:
+  app:
+    image: ocrserver
+    ports:
+      - 5000:8080
+    volumes:
+      - easyocr:/root/.EasyOCR
